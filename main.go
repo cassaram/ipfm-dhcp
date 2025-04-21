@@ -50,12 +50,12 @@ func createKeaConfig(sw SwitchConfig) []KeaDHCP4SubnetConfig {
 		if sw.Interfaces[inter].NetworkMaskSize < 30 {
 			continue
 		}
-		intCfgs = append(intCfgs, createKeaSubnetConfig(sw.SwitchID, sw.Interfaces[inter]))
+		intCfgs = append(intCfgs, createKeaSubnetConfig(sw.SwitchID, sw.Hostname, sw.Interfaces[inter]))
 	}
 	return intCfgs
 }
 
-func createKeaSubnetConfig(swid int, inter InterfaceConfig) KeaDHCP4SubnetConfig {
+func createKeaSubnetConfig(swid int, hostname string, inter InterfaceConfig) KeaDHCP4SubnetConfig {
 	// Compute an ID for this interface that will not change with varying names
 	intId := 0
 	if compareStringStart("mgmt", inter.Name) {
@@ -89,6 +89,12 @@ func createKeaSubnetConfig(swid int, inter InterfaceConfig) KeaDHCP4SubnetConfig
 			{
 				Name: ROUTERS,
 				Data: inter.IPAddress.String(),
+			},
+		},
+		Reservations: []KeaDHCP4SubnetReservationConfig{
+			{
+				CircuitID: "`" + hostname + ":" + inter.Name + "`",
+				IPAddress: getHostIP(inter).String(),
 			},
 		},
 	}

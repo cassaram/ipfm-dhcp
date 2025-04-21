@@ -1,10 +1,11 @@
 package main
 
 type KeaDHCP4SubnetConfig struct {
-	Subnet     string                       `json:"subnet"`
-	ID         uint32                       `json:"id,omitempty"`
-	Pools      []KeaDHCP4SubnetPoolConfig   `json:"pools"`
-	OptionData []KeaDHCP4SubnetOptionConfig `json:"option-data,omitempty"`
+	Subnet       string                            `json:"subnet"`
+	ID           uint32                            `json:"id,omitempty"`
+	Pools        []KeaDHCP4SubnetPoolConfig        `json:"pools"`
+	OptionData   []KeaDHCP4SubnetOptionConfig      `json:"option-data,omitempty"`
+	Reservations []KeaDHCP4SubnetReservationConfig `json:"reservations,omitempty"`
 }
 
 type KeaDHCP4SubnetPoolConfig struct {
@@ -17,6 +18,13 @@ type KeaDHCP4SubnetOptionConfig struct {
 	Space     string         `json:"space,omitempty"`
 	CSVFormat bool           `json:"csv-format,omitempty"`
 	Data      string         `json:"data,omitempty"`
+}
+
+type KeaDHCP4SubnetReservationConfig struct {
+	HWAddress string `json:"hw-address,omitempty"`
+	DUID      string `json:"duid,omitempty"`
+	CircuitID string `json:"circuit-id,omitempty"`
+	IPAddress string `json:"ip-address"`
 }
 
 type KeaDHCP4Option string
