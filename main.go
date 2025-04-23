@@ -47,7 +47,7 @@ func createKeaConfig(sw SwitchConfig) []KeaDHCP4SubnetConfig {
 		if sw.Interfaces[inter].IPAddress.IsUnspecified() {
 			continue
 		}
-		if sw.Interfaces[inter].NetworkMaskSize < 30 {
+		if sw.Interfaces[inter].NetworkMaskSize != 30 {
 			continue
 		}
 		intCfgs = append(intCfgs, createKeaSubnetConfig(sw.SwitchID, sw.Hostname, sw.Interfaces[inter]))
