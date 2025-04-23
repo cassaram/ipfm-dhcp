@@ -16,16 +16,6 @@ func main() {
 	cfgs := ParseCiscoConfigs()
 	keaCfgs := make([]KeaDHCP4SubnetConfig, 0, len(cfgs)*64)
 	for _, cfg := range cfgs {
-		fmt.Println("------------------------")
-		fmt.Println(cfg.Hostname)
-		fmt.Println("------------------------")
-		for _, key := range cfg.InterfaceNames {
-			fmt.Println(key)
-			fmt.Print("\t")
-			fmt.Println(cfg.Interfaces[key])
-			fmt.Print("\t")
-			fmt.Println(removeAlphabet(key))
-		}
 		keaCfgs = append(keaCfgs, createKeaConfig(cfg)...)
 	}
 	bytes, err := json.MarshalIndent(keaCfgs, "", "\t")
@@ -76,7 +66,6 @@ func createKeaSubnetConfig(swid int, hostname string, inter InterfaceConfig) Kea
 	}
 	intId = swid*10000 + intId
 	pool := getHostIP(inter).String() + " - " + getHostIP(inter).String()
-	fmt.Println(inter.NetworkAddress)
 	return KeaDHCP4SubnetConfig{
 		Subnet: inter.NetworkAddress.String() + "/" + strconv.Itoa(inter.NetworkMaskSize),
 		ID:     uint32(intId),
@@ -112,6 +101,7 @@ func ParseCiscoConfigs() map[string]SwitchConfig {
 			continue
 		}
 		data, err := os.ReadFile("configs/" + file.Name())
+		fmt.Printf("Parsing %s\n", file.Name())
 		if err != nil {
 			panic(err)
 		}
