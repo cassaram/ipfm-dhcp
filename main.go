@@ -93,7 +93,7 @@ func createKeaSubnetConfig(swid int, hostname string, inter InterfaceConfig) Kea
 		},
 		Reservations: []KeaDHCP4SubnetReservationConfig{
 			{
-				CircuitID: "`" + hostname + ":" + inter.Name + "`",
+				CircuitID: "'" + hostname + ":" + inter.Name + "'",
 				IPAddress: getHostIP(inter).String(),
 			},
 		},
